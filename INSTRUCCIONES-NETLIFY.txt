@@ -1,0 +1,222 @@
+========================================
+INSTRUCCIONES NETLIFY + JSON
+Sistema de Consulta de Resultados
+========================================
+
+REQUISITOS PREVIOS:
+-------------------
+✓ Tener una cuenta de GitHub (gratis): https://github.com
+✓ Tener una cuenta de Netlify (gratis): https://netlify.com
+
+
+========================================
+PASO 1: CONVERTIR TU EXCEL A JSON
+========================================
+
+Opción A - Con herramienta online (MÁS FÁCIL):
+-----------------------------------------------
+1. Ve a: https://www.convertcsv.com/excel-to-json.htm
+2. Click en "Choose File" y selecciona tu Excel
+3. Asegúrate que esté marcado "Use first row as column headers"
+4. Click en "Convert Excel to JSON"
+5. Copia todo el resultado
+6. Abre el archivo: data/resultados.json
+7. REEMPLAZA todo el contenido con lo que copiaste
+8. Guarda el archivo
+
+Opción B - Manual (para pocos datos):
+--------------------------------------
+1. Abre: data/resultados.json
+2. Sigue este formato para cada registro:
+
+  {
+    "dni": "60175412",
+    "nombre": "PILCO LUQUE, OSCAR DUVAN",
+    "puntaje": "2432.61",
+    "area": "Biomédicas"
+  }
+
+3. Separa cada registro con comas
+4. Todo debe estar entre [ ]
+
+IMPORTANTE:
+- Los campos deben llamarse EXACTAMENTE: dni, nombre, puntaje, area
+- Usa comillas dobles " no simples '
+- No dejes comas al final del último registro
+
+
+========================================
+PASO 2: SUBIR A GITHUB
+========================================
+
+1. Ve a: https://github.com
+2. Inicia sesión o crea una cuenta (es gratis)
+3. Click en el botón verde "New" (arriba a la izquierda)
+4. Nombre del repositorio: resultados-simulacro
+5. Selecciona "Public" (público)
+6. NO marques "Add a README file"
+7. Click en "Create repository"
+
+8. Verás comandos, IGNORA TODO ESO
+
+9. En tu computadora, abre Git Bash (o terminal) en la carpeta d:\resultados-simulacro
+
+10. Ejecuta estos comandos UNO POR UNO:
+
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/TU-USUARIO/resultados-simulacro.git
+git push -u origin main
+
+(Reemplaza TU-USUARIO con tu nombre de usuario de GitHub)
+
+11. Cuando te pida usuario y contraseña:
+    - Usuario: tu usuario de GitHub
+    - Contraseña: NO uses tu contraseña normal
+    - Debes crear un "Personal Access Token":
+      a) Ve a: GitHub > Settings > Developer settings > Personal access tokens > Tokens (classic)
+      b) Generate new token (classic)
+      c) Marca: "repo" (todos los permisos de repo)
+      d) Generate token
+      e) COPIA el token y úsalo como contraseña
+
+
+========================================
+PASO 3: CONECTAR CON NETLIFY
+========================================
+
+1. Ve a: https://netlify.com
+2. Click en "Sign up" y elige "Sign up with GitHub"
+3. Autoriza Netlify para acceder a GitHub
+4. Una vez dentro, click en "Add new site" > "Import an existing project"
+5. Click en "Deploy with GitHub"
+6. Busca tu repositorio: resultados-simulacro
+7. Click en el repositorio
+8. Configuración del deploy:
+   - Branch to deploy: main
+   - Build command: (déjalo VACÍO)
+   - Publish directory: . (un punto)
+9. Click en "Deploy site"
+
+10. Espera 1-2 minutos mientras se despliega
+11. Verás "Site is live!" con una URL tipo: https://amazing-dolphin-123abc.netlify.app
+
+
+========================================
+PASO 4: PROBAR TU SITIO
+========================================
+
+1. Click en la URL que te dio Netlify
+2. Se abrirá tu formulario de consulta
+3. Ingresa un DNI de prueba (ejemplo: 60175412)
+4. Click en "Consultar"
+5. ¡Deberían aparecer los resultados!
+
+
+========================================
+PASO 5: VERIFICAR SEGURIDAD
+========================================
+
+1. Abre tu sitio
+2. Presiona F12 (abrir DevTools)
+3. Ve a la pestaña "Network" o "Red"
+4. Consulta un DNI
+5. Verás una petición a "consultar?dni=XXXXXXXX"
+6. Click en esa petición
+7. Ve a "Response" o "Respuesta"
+8. Solo verás el resultado de ESE DNI consultado
+9. ✓ Los demás datos NO están visibles
+
+
+========================================
+ACTUALIZAR DATOS (cuando tengas nuevo Excel)
+========================================
+
+1. Convierte tu nuevo Excel a JSON (Paso 1)
+2. Reemplaza el contenido de data/resultados.json
+3. En la terminal, ejecuta:
+
+git add .
+git commit -m "Actualizar resultados"
+git push
+
+4. Netlify detectará el cambio automáticamente
+5. En 1-2 minutos, tu sitio tendrá los nuevos datos
+
+
+========================================
+PERSONALIZAR DOMINIO (Opcional)
+========================================
+
+Por defecto tendrás: https://amazing-dolphin-123abc.netlify.app
+
+Para personalizarlo:
+1. En Netlify > Site settings > Domain management
+2. Click en "Options" > "Edit site name"
+3. Cámbialo a: resultados-simulacro-2024
+4. Tu URL será: https://resultados-simulacro-2024.netlify.app
+
+
+========================================
+SOLUCIÓN DE PROBLEMAS
+========================================
+
+❌ Error al hacer push a GitHub:
+   → Asegúrate de usar Personal Access Token, no tu contraseña
+   → Verifica que el token tenga permisos de "repo"
+
+❌ Netlify no encuentra la función:
+   → Verifica que la carpeta sea "netlify/functions" (minúsculas)
+   → Verifica que el archivo sea "consultar.js"
+
+❌ Error en el JSON:
+   → Usa un validador: https://jsonlint.com
+   → Verifica que no haya comas al final
+   → Verifica que uses comillas dobles "
+
+❌ No aparecen resultados:
+   → Verifica que el DNI en el JSON sea string: "60175412"
+   → Verifica que los campos se llamen: dni, nombre, puntaje, area
+
+❌ Error 404 en la función:
+   → Espera 2-3 minutos después del deploy
+   → Verifica la URL: debe ser /.netlify/functions/consultar
+
+
+========================================
+VENTAJAS DE ESTA SOLUCIÓN
+========================================
+
+✓ 100% Gratuito
+✓ Los datos están en el servidor, NO en el navegador
+✓ Solo se devuelve el DNI consultado
+✓ Imposible ver otros datos al inspeccionar
+✓ Fácil de actualizar (solo push a GitHub)
+✓ URL profesional con HTTPS automático
+✓ Rápido y confiable
+
+
+========================================
+ESTRUCTURA DE ARCHIVOS
+========================================
+
+resultados-simulacro/
+├── index.html              (Formulario)
+├── styles.css              (Estilos)
+├── script.js               (Lógica frontend)
+├── netlify.toml            (Configuración Netlify)
+├── data/
+│   └── resultados.json     (Base de datos - ACTUALIZA AQUÍ)
+└── netlify/
+    └── functions/
+        └── consultar.js    (API serverless)
+
+
+¿NECESITAS AYUDA?
+-----------------
+Si tienes problemas:
+1. Verifica que seguiste todos los pasos
+2. Revisa la consola de errores (F12 > Console)
+3. Verifica los logs en Netlify (Site > Deploys > Click en el deploy)

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Resultados - Simulacro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Consulta de Resultados</h1>
+            <p class="subtitle">Ingresa tu DNI para consultar tus resultados</p>
+
+            <form id="consultaForm">
+                <div class="input-group">
+                    <label for="dni">DNI</label>
+                    <input
+                        type="text"
+                        id="dni"
+                        name="dni"
+                        placeholder="Ej: 60175412"
+                        maxlength="8"
+                        pattern="[0-9]{8}"
+                        required
+                    >
+                </div>
+
+                <button type="submit" id="btnConsultar">
+                    Consultar
+                </button>
+            </form>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Consultando...</p>
+            </div>
+
+            <div id="resultado" class="resultado hidden">
+                <h2>Resultados Encontrados</h2>
+                <div class="resultado-content">
+                    <div class="dato">
+                        <span class="label">DNI:</span>
+                        <span id="resDni" class="value"></span>
+                    </div>
+                    <div class="dato">
+                        <span class="label">Apellidos y Nombres:</span>
+                        <span id="resNombre" class="value"></span>
+                    </div>
+                    <div class="dato">
+                        <span class="label">Puntaje:</span>
+                        <span id="resPuntaje" class="value puntaje"></span>
+                    </div>
+                    <div class="dato">
+                        <span class="label">Área:</span>
+                        <span id="resArea" class="value area"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error hidden">
+                <p id="errorMsg"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

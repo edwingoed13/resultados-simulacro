@@ -1,0 +1,192 @@
+========================================
+PASO A PASO: SUBIR Y DESPLEGAR EN NETLIFY
+========================================
+
+PASO 1: SUBIR A GITHUB
+========================================
+
+1. Abre Git Bash (o terminal) en la carpeta: d:\resultados-simulacro
+
+2. Ejecuta estos comandos UNO POR UNO:
+
+   git init
+
+   git add .
+
+   git commit -m "Sistema de consulta de resultados"
+
+   git branch -M main
+
+3. Ve a GitHub: https://github.com
+   - Inicia sesión
+   - Click en el botón verde "New" (arriba a la izquierda)
+   - Repository name: resultados-simulacro
+   - Selecciona "Public"
+   - NO marques "Add a README file"
+   - Click "Create repository"
+
+4. Copia la URL que aparece (se ve así):
+   https://github.com/TU-USUARIO/resultados-simulacro.git
+
+5. Vuelve a la terminal y ejecuta (reemplaza TU-USUARIO):
+
+   git remote add origin https://github.com/TU-USUARIO/resultados-simulacro.git
+
+   git push -u origin main
+
+6. Te pedirá credenciales:
+   - Username: tu usuario de GitHub
+   - Password: NO uses tu contraseña, usa un Personal Access Token
+
+   CREAR TOKEN:
+   a) Ve a: GitHub.com > Click tu foto (arriba derecha) > Settings
+   b) Scroll abajo > Developer settings (último del menú izquierdo)
+   c) Personal access tokens > Tokens (classic)
+   d) Generate new token > Generate new token (classic)
+   e) Note: "Netlify deploy"
+   f) Expiration: 90 days (o lo que prefieras)
+   g) Marca SOLO: ☑ repo (todos los permisos de repo)
+   h) Scroll abajo > Generate token
+   i) COPIA EL TOKEN (solo se muestra una vez)
+   j) Úsalo como contraseña en la terminal
+
+7. Si todo salió bien verás:
+   "Branch 'main' set up to track remote branch 'main' from 'origin'"
+
+
+========================================
+PASO 2: CONECTAR CON NETLIFY
+========================================
+
+1. Ve a: https://app.netlify.com
+
+2. Si no tienes cuenta:
+   - Click "Sign up"
+   - Elige "GitHub" (para conectar con GitHub)
+   - Autoriza Netlify
+
+3. Si ya tienes cuenta:
+   - Click "Log in"
+   - Inicia sesión con GitHub
+
+4. Una vez dentro:
+   - Click en "Add new site" (botón verde)
+   - Click en "Import an existing project"
+
+5. Elige "Deploy with GitHub"
+   - Si te pide autorización, acepta
+   - Busca: resultados-simulacro
+   - Click en el repositorio
+
+6. Configuración del Deploy:
+   - Branch to deploy: main
+   - Build command: (déjalo VACÍO)
+   - Publish directory: . (escribe solo un punto)
+   - Functions directory: netlify/functions (debería detectarlo automáticamente)
+
+7. Click en "Deploy resultados-simulacro" (botón verde abajo)
+
+8. Espera 1-3 minutos mientras despliega...
+   Verás: "Site deploy in progress..."
+
+9. Cuando termine verás:
+   "🎉 Site is live!"
+   Y una URL tipo: https://amazing-dolphin-123abc.netlify.app
+
+
+========================================
+PASO 3: PROBAR TU SITIO EN VIVO
+========================================
+
+1. Click en la URL que te dio Netlify
+
+2. Deberías ver tu formulario de consulta
+
+3. Prueba con un DNI real de tu JSON
+
+4. ¡Debería funcionar!
+
+
+========================================
+PASO 4: VERIFICAR SEGURIDAD
+========================================
+
+1. En tu sitio desplegado, presiona F12
+
+2. Ve a la pestaña "Network" (Red)
+
+3. Consulta un DNI
+
+4. Verás una petición a: consultar?dni=XXXXXXXX
+
+5. Click en esa petición > Pestaña "Response"
+
+6. Solo verás el resultado de ESE DNI
+
+7. ✓ Los demás datos NO están visibles
+
+
+========================================
+PASO 5: PERSONALIZAR URL (OPCIONAL)
+========================================
+
+1. En Netlify, ve a: Site settings
+
+2. En la sección "Site information"
+
+3. Click en "Change site name"
+
+4. Elige un nombre: resultados-simulacro-2024
+
+5. Tu URL será: https://resultados-simulacro-2024.netlify.app
+
+
+========================================
+ACTUALIZAR DATOS EN EL FUTURO
+========================================
+
+Cuando tengas un nuevo Excel:
+
+1. Convierte a JSON y corrige el formato
+2. Reemplaza data/resultados.json
+3. En la terminal:
+
+   git add .
+   git commit -m "Actualizar resultados"
+   git push
+
+4. Netlify detectará el cambio automáticamente
+5. En 1-2 minutos estará actualizado
+
+
+========================================
+SOLUCIÓN DE PROBLEMAS
+========================================
+
+❌ Error al hacer push:
+   git remote set-url origin https://github.com/TU-USUARIO/resultados-simulacro.git
+   git push -u origin main
+
+❌ Error "support for password authentication was removed":
+   → DEBES usar Personal Access Token, NO tu contraseña
+
+❌ Netlify dice "Deploy failed":
+   → Ve a: Deploys > Click en el deploy fallido > Ver logs
+   → Comparte el error para ayudarte
+
+❌ La función no responde (404):
+   → Verifica que la carpeta sea: netlify/functions/consultar.js
+   → Espera 2-3 minutos después del deploy
+   → Revisa los logs en Netlify
+
+❌ CORS error:
+   → Verifica que consultar.js tenga los headers CORS
+   → Ya está incluido en el código
+
+
+========================================
+¡LISTO!
+========================================
+
+Tu sistema está desplegado y seguro.
+Comparte la URL con los usuarios para que consulten sus resultados.

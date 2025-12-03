@@ -1,0 +1,39 @@
+========================================
+CÓMO CORREGIR EL JSON - GUÍA RÁPIDA
+========================================
+
+PASOS:
+------
+
+1. Guarda tu JSON convertido (el que tiene DNI, Apellidos y Nombres, etc.) como:
+   data/resultados-original.json
+
+2. Abre la terminal en la carpeta d:\resultados-simulacro
+
+3. Ejecuta:
+   node convertir-json.js
+
+4. ¡Listo! El archivo corregido se guardará automáticamente en:
+   data/resultados.json
+
+
+ALTERNATIVA (si no tienes Node.js):
+-----------------------------------
+
+Usa esta herramienta online:
+
+1. Copia TODO tu JSON
+2. Ve a: https://transform.tools/json-to-json
+3. En el panel izquierdo pega tu JSON
+4. En el panel derecho (código), pega esto:
+
+map(item => ({
+  dni: String(item.DNI),
+  nombre: item["Apellidos y Nombres"],
+  puntaje: String(item.Puntaje),
+  area: item.Area
+}))
+
+5. Copia el resultado del panel derecho
+6. Pégalo en data/resultados.json
+7. ¡Listo!

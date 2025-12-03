@@ -1,0 +1,12 @@
+# Netlify
+.netlify/
+
+# Node modules (si usas dependencias locales)
+node_modules/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Opcional: Si quieres mantener datos sensibles fuera de Git
+# data/resultados.json
