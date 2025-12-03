@@ -46,8 +46,22 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Leer el archivo JSON
-    const dataPath = path.join(__dirname, '..', '..', 'data', 'resultados.json');
+    // Leer el archivo JSON - Ruta absoluta para Netlify
+    const dataPath = path.resolve(__dirname, '../../data/resultados.json');
+
+    // Verificar si el archivo existe
+    if (!fs.existsSync(dataPath)) {
+      console.error('Archivo no encontrado en:', dataPath);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          message: 'Archivo de datos no encontrado'
+        })
+      };
+    }
+
     const rawData = fs.readFileSync(dataPath, 'utf8');
     const resultados = JSON.parse(rawData);
 
