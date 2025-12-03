@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+// Importar datos directamente
+const resultados = require('../../data/resultados.json');
 
 exports.handler = async (event, context) => {
   // Configurar CORS
@@ -45,25 +45,6 @@ exports.handler = async (event, context) => {
         })
       };
     }
-
-    // Leer el archivo JSON - Ruta absoluta para Netlify
-    const dataPath = path.resolve(__dirname, '../../data/resultados.json');
-
-    // Verificar si el archivo existe
-    if (!fs.existsSync(dataPath)) {
-      console.error('Archivo no encontrado en:', dataPath);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({
-          success: false,
-          message: 'Archivo de datos no encontrado'
-        })
-      };
-    }
-
-    const rawData = fs.readFileSync(dataPath, 'utf8');
-    const resultados = JSON.parse(rawData);
 
     // Buscar el DNI
     const resultado = resultados.find(r => String(r.dni).trim() === String(dni).trim());
