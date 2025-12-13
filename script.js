@@ -41,19 +41,13 @@ form.addEventListener("submit", async function (e) {
   try {
     // Realizar la consulta
     const response = await fetch(`${API_URL}?dni=${dni}`);
-
-    if (!response.ok) {
-      throw new Error("Error en la consulta");
-    }
-
     const data = await response.json();
 
     if (data.success) {
       mostrarResultado(data.data);
     } else {
-      mostrarError(
-        data.message || "No se encontraron resultados para este DNI"
-      );
+      // Mostrar el mensaje específico del servidor (ej: DNI no encontrado)
+      mostrarError(data.message || "No se encontraron resultados para este DNI");
     }
   } catch (err) {
     console.error("Error:", err);
